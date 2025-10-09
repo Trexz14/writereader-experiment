@@ -1,0 +1,44 @@
+services:
+  wr-ml-service:
+    image: writereader/atel:experiment
+    ports: 
+      - "5001:5000"
+    volumes:
+      - ./models/modeldir_v1:/modeldir
+    environment:
+      - MODEL_DIRECTORY=/modeldir
+      - INITIAL_MODEL=llama_full
+      - MODEL_DEVICE=cuda  # GPU acceleration
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    networks:
+      - ml-network
+    restart: unless-stopped
+
+  automaticscore:
+    image: writereader/automaticscore:experiment
+    ports:
+      - "5002:5000"
+    volumes:
+      - ./models/autoscoring_v2:/modeldir
+    environment:
+      - MODEL_DIRECTORY=/modeldir
+      - MODEL_DETECT_NOISE=detect_noise/logistic_classifier/model
+      - MODEL_EVALUATE_TEXT=evaluate_text/simple
+      - API_TEXT_PROPOSAL=http://wr-ml-service:5000/api/textproposal/
+      - THRESHOLD_EVALUATE_TEXT=2.0  # Optimized for experiment
+      - THRESHOLD_DENOISE=0.5
+    depends_on:
+      - wr-ml-service
+    networks:
+      - ml-network
+    restart: unless-stopped
+
+networks:
+  ml-network:
+    driver: bridge
