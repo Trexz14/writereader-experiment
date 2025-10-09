@@ -1,6 +1,6 @@
 services:
   wr-ml-service:
-    image: writereader/atel:experiment
+    image: frederikjwritereader/atel:experiment
     ports: 
       - "5001:5000"
     volumes:
@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
 
   automaticscore:
-    image: writereader/automaticscore:experiment
+    image: frederikjwritereader/automaticscore:experiment
     ports:
       - "5002:5000"
     volumes:
