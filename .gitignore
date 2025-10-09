@@ -51,3 +51,16 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+
+# GDPR - Raw data files (never commit personal data!)
+data/*.parquet
+data/*.csv
+data/*.json
+output/*.parquet
+output/*.csv
+output/*.json
+*.parquet
+*.csv
+
+# Model files (large binaries)
+models/
