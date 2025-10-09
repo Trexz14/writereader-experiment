@@ -7,16 +7,20 @@ import requests
 import pandas as pd
 import json
 import logging
+import os
 import time
 from typing import Dict, Any, List
 
 def setup_logging():
     """Set up logging configuration"""
+    # Use relative path for local testing, absolute for Docker
+    log_path = './output/processing.log' if not os.path.exists('/output') else '/output/processing.log'
+    
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s',
         handlers=[
-            logging.FileHandler('/output/processing.log'),
+            logging.FileHandler(log_path),
             logging.StreamHandler()
         ]
     )

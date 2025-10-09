@@ -77,7 +77,7 @@ def process_parquet_file(input_file: str, output_file: str,
                     for j, result in enumerate(response['texts']):
                         original_row = batch_df.iloc[j]
                         combined_result = {
-                            # Original data
+                            # Original data (from parquet file)
                             'original_id': original_row['ID'],
                             'original_child_text': original_row['ChildText'],
                             'original_adult_text': original_row['AdultText'],
@@ -93,9 +93,7 @@ def process_parquet_file(input_file: str, output_file: str,
                             'gdpr_adult_text': result.get('gdpr', {}).get('adultText'),
                             'gdpr_proposed_text': result.get('gdpr', {}).get('proposedText'),
                             
-                            # Raw results
-                            'raw_child_text': result.get('raw', {}).get('childText'),
-                            'raw_adult_text': result.get('raw', {}).get('adultText'),
+                            # Raw proposed text (no original equivalent)
                             'raw_proposed_text': result.get('raw', {}).get('proposedText'),
                             
                             # Processing metadata

@@ -1,3 +1,6 @@
+# Writereader AI Equivalence Experiment
+# Switch between GPU and CPU configurations by commenting/uncommenting sections
+
 services:
   wr-ml-service:
     image: frederikjwritereader/atel:experiment
@@ -8,14 +11,22 @@ services:
     environment:
       - MODEL_DIRECTORY=/modeldir
       - INITIAL_MODEL=llama_full
-      - MODEL_DEVICE=cuda  # GPU acceleration
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+      
+      # === GPU Configuration (for Datacrunch/Linux with NVIDIA GPU) ===
+      # Uncomment these lines for GPU deployment:
+      # - MODEL_DEVICE=cuda
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+      
+      # === CPU Configuration (for Mac/testing) ===
+      # Comment out this line for GPU deployment:
+      - MODEL_DEVICE=cpu
+      
     networks:
       - ml-network
     restart: unless-stopped
