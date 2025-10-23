@@ -31,11 +31,12 @@ def make_api_call(api_url: str, request_data: Dict[str, Any],
     
     for attempt in range(max_retries):
         try:
-            print(f"\n🚀 Making API call (attempt {attempt + 1}/{max_retries})")
-            print(f"📍 URL: {api_url}")
-            print(f"📊 Processing {len(request_data.get('texts', []))} text(s)")
-            print(f"⏰ Timeout: {timeout} seconds")
-            print(f"🔄 Starting request at: {time.strftime('%H:%M:%S')}")
+            # Verbose logging (commented out for faster processing)
+            # print(f"\n🚀 Making API call (attempt {attempt + 1}/{max_retries})")
+            # print(f"📍 URL: {api_url}")
+            # print(f"📊 Processing {len(request_data.get('texts', []))} text(s)")
+            # print(f"⏰ Timeout: {timeout} seconds")
+            # print(f"🔄 Starting request at: {time.strftime('%H:%M:%S')}")
             
             start_time = time.time()
             response = requests.post(
@@ -46,7 +47,7 @@ def make_api_call(api_url: str, request_data: Dict[str, Any],
             )
             end_time = time.time()
             
-            print(f"✅ Response received in {end_time - start_time:.2f} seconds")
+            # print(f"✅ Response received in {end_time - start_time:.2f} seconds")
             
             if response.status_code == 200:
                 return response.json()

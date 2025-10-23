@@ -127,8 +127,8 @@ def main():
     setup_logging()
     
     # Get configuration from environment or defaults
-    input_file = os.getenv('INPUT_FILE', '/data/june01_to_sept25.parquet')
-    output_file = os.getenv('OUTPUT_FILE', '/output/processed_results.parquet')
+    input_file = os.getenv('INPUT_FILE', 'data/june01_to_sept25.parquet')
+    output_file = os.getenv('OUTPUT_FILE', 'output/processed_results.parquet')
     api_url = os.getenv('AUTOMATICSCORE_URL', 'http://localhost:5002') + '/api/text_to_score/'
     batch_size = int(os.getenv('BATCH_SIZE', '100'))
     
