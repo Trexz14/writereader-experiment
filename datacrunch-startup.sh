@@ -31,13 +31,16 @@ docker run --rm --gpus all nvidia/cuda:12.0-base-ubuntu20.04 nvidia-smi
 cd /root
 echo "Setting up workspace..."
 
-# Clone the experiment repository
+# Clone or update the experiment repository
 if [ ! -d "writereader-experiment" ]; then
     echo "Cloning experiment repository..."
     git clone https://github.com/Trexz14/writereader-experiment.git
+    cd writereader-experiment
+else
+    echo "Repository exists, pulling latest changes..."
+    cd writereader-experiment
+    git pull origin main
 fi
-
-cd writereader-experiment
 
 # Create necessary directories
 mkdir -p data output models
