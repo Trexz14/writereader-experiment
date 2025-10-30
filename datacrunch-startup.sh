@@ -10,22 +10,21 @@ echo "Starting Writereader Experiment Setup..."
 apt-get update
 
 # Install additional tools if needed
-apt-get install -y git curl wget htop unzip
+apt-get install -y git git-lfs curl wget htop unzip
 
 # Install rclone for Google Drive access
-curl https://rclone.org/install.sh | bash
+curl https://rclone.org/install.sh | bash || true
 
 # Verify GPU and Docker
-echo "Checking GPU..."
+echo "Checking GPU and docker"
 nvidia-smi
 
-echo "Checking Docker..."
 docker --version
-docker-compose --version
+docker compose version
 
 # Test Docker GPU support
 echo "Testing Docker GPU support..."
-docker run --rm --gpus all nvidia/cuda:12.0-base-ubuntu20.04 nvidia-smi
+docker run --rm --gpus all nvidia/cuda:12.0.0-base-ubuntu20.04 nvidia-smi
 
 # Create workspace
 cd /root
@@ -45,15 +44,15 @@ fi
 # Create necessary directories
 mkdir -p data output models
 
-echo "Basic setup complete!"
+echo "--- AUTOMATED SETUP COMPLETE ---"
 echo ""
-echo "Manual steps still needed:"
-echo "1. Copy rclone config: scp ~/.rclone.conf root@YOUR_IP:/root/.rclone.conf"
-echo "2. Download models from Google Drive using rclone"
-echo "3. Upload data file: scp data/june01_to_sept25.parquet root@YOUR_IP:/root/writereader-experiment/data/"
-echo "4. Start services: docker-compose up -d"
-echo "5. Wait for model loading: docker-compose logs -f"
-echo "6. Run processing: python3 process_parquet.py"
+echo "The environment is ready. Please perform the following manual steps:"
+echo "1. Copy rclone config: scp ~/.config/rclone/rclone.conf root@YOUR_IP:/root/.config/rclone/"
+echo "2. Download models: rclone copy 'gdrive:Writereader/Equivalence_Experiment/models' './models' --progress"
+echo "3. Upload data file: scp /path/to/your/data.parquet root@YOUR_IP:/root/writereader-experiment/data/"
+echo "4. Pull images and start services: docker compose pull && docker compose up -d"
+echo "5. Wait for model loading: docker compose logs -f wr-ml-service-1"
+echo "6. Run processing: INPUT_FILE='data/your_data.parquet' BATCH_SIZE='100' python3 process_parquet.py"
 echo ""
 echo "Remember to destroy this instance when done to save costs!"
 echo ""
