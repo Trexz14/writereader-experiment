@@ -19,9 +19,9 @@
 - [ ] `june01_to_sept25.parquet` (data file)
 
 ### 3. Google Drive Models
-- [ ] Verify `new_modeldir_v4_atel.zip` exists in My Drive
-- [ ] Verify `automaticscoring_models_v2.zip` exists in My Drive
-- [ ] Have `rclone.conf` backed up locally at `~/.config/rclone/rclone.conf`
+- [x] Verify `new_modeldir_v4_atel.zip` exists in My Drive (24 GB - confirmed)
+- [x] Verify `automaticscoring_models_v2.zip` exists in My Drive (18 KB - confirmed)
+- [x] Have `rclone.conf` backed up locally at `~/.rclone.conf` (confirmed working)
 
 ---
 
@@ -46,8 +46,10 @@ bash <(curl -s https://raw.githubusercontent.com/Trexz14/writereader-experiment/
 ### 3. Copy rclone Configuration
 **On local machine:**
 ```bash
-ssh root@<INSTANCE_IP> "mkdir -p /root/.config/rclone/"
-scp ~/.config/rclone/rclone.conf root@<INSTANCE_IP>:/root/.config/rclone/
+scp ~/.rclone.conf root@<INSTANCE_IP>:/root/.rclone.conf
+
+# Verify it works
+ssh root@<INSTANCE_IP> "rclone ls gdrive: | head -5"
 ```
 
 ### 4. Download Models

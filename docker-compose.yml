@@ -3,6 +3,7 @@
 
 services:
   wr-ml-service:
+    # === Cloud Configuration (GPU deployment) ===
     image: frederikjwritereader/atel:experiment
     ports: 
       - "5001:5000"
@@ -11,9 +12,6 @@ services:
     environment:
       - MODEL_DIRECTORY=/modeldir
       - INITIAL_MODEL=llama_full
-      
-      # === GPU Configuration (for Datacrunch/Linux with NVIDIA GPU) ===
-      # Uncomment these lines for GPU deployment:
       - MODEL_DEVICE=cuda
     deploy:
       resources:
@@ -22,16 +20,24 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
-      
-      # === CPU Configuration (for Mac/testing) ===
-      # Comment out this line for GPU deployment:
-      # - MODEL_DEVICE=cpu
+    
+    # === Local Configuration (Mac testing) ===
+    # Uncomment these lines and comment out cloud config above:
+    # image: atel:latest
+    # volumes:
+    #   - ./models/modeldir_v1:/modeldir
+    # environment:
+    #   - MODEL_DIRECTORY=/modeldir
+    #   - INITIAL_MODEL=llama_full
+    #   - MODEL_DEVICE=cpu
+    # # Remove deploy section for local testing
       
     networks:
       - ml-network
     restart: unless-stopped
 
   automaticscore:
+    # === Cloud Configuration (GPU deployment) ===
     image: frederikjwritereader/automaticscore:experiment
     ports:
       - "5002:5000"
@@ -42,8 +48,12 @@ services:
       - MODEL_DETECT_NOISE=detect_noise/logistic_classifier/model
       - MODEL_EVALUATE_TEXT=evaluate_text/simple
       - API_TEXT_PROPOSAL=http://wr-ml-service:5000/api/textproposal/
-      - THRESHOLD_EVALUATE_TEXT=2.0  # Optimized for experiment
+      - THRESHOLD_EVALUATE_TEXT=2.0
       - THRESHOLD_DENOISE=0.5
+    
+    # === Local Configuration (Mac testing) ===
+    # Uncomment this line and comment out cloud config above:
+    # image: automaticscore:latest
     depends_on:
       - wr-ml-service
     networks:

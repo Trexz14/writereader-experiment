@@ -2,6 +2,31 @@
 """
 Batch processing script for parquet data through automaticscore API
 Designed for Datacrunch deployment with Docker
+
+USAGE:
+    python3 process_parquet.py --input <input_file> --output <output_file> --api-url <api_url> --batch-size <size>
+
+INPUT:
+    - Parquet file with columns: ChildText, AdultText, Time, ID
+    - Example: data/sample_2_row.parquet
+
+OUTPUT:
+    - Parquet file with original columns plus API response fields:
+        - pageId: Row index
+        - gdpr: {childText, adultText, proposedText} - GDPR-cleaned texts
+        - isProposed: Boolean indicating if text was proposed
+        - raw: {childText, adultText, proposedText} - Raw unprocessed texts
+        - aiScore: Float confidence score from AI model (CRITICAL FIELD)
+        - processed_at: Timestamp
+        - batch_number: Batch identifier
+    - Failed batches JSON file (if any failures occur)
+
+EXAMPLE:
+    python3 process_parquet.py \
+        --input data/sample_2_row.parquet \
+        --output output/test_results.parquet \
+        --api-url http://localhost:5002/api/text_to_score/ \
+        --batch-size 2
 """
 
 import pandas as pd
@@ -9,6 +34,7 @@ import requests
 import json
 import os
 import sys
+import argparse
 from pathlib import Path
 from datetime import datetime
 import time
@@ -126,11 +152,27 @@ def main():
     """Main entry point"""
     setup_logging()
     
-    # Get configuration from environment or defaults
-    input_file = os.getenv('INPUT_FILE', 'data/june01_to_sept25.parquet')
-    output_file = os.getenv('OUTPUT_FILE', 'output/processed_results.parquet')
-    api_url = os.getenv('AUTOMATICSCORE_URL', 'http://localhost:5002') + '/api/text_to_score/'
-    batch_size = int(os.getenv('BATCH_SIZE', '100'))
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(description='Process parquet data through automaticscore API')
+    parser.add_argument('--input', type=str, 
+                       default=os.getenv('INPUT_FILE', 'data/june01_to_sept25.parquet'),
+                       help='Input parquet file path')
+    parser.add_argument('--output', type=str,
+                       default=os.getenv('OUTPUT_FILE', 'output/processed_results.parquet'),
+                       help='Output parquet file path')
+    parser.add_argument('--api-url', type=str,
+                       default=os.getenv('AUTOMATICSCORE_URL', 'http://localhost:5002/api/text_to_score/'),
+                       help='API endpoint URL')
+    parser.add_argument('--batch-size', type=int,
+                       default=int(os.getenv('BATCH_SIZE', '100')),
+                       help='Batch size for processing')
+    
+    args = parser.parse_args()
+    
+    input_file = args.input
+    output_file = args.output
+    api_url = args.api_url
+    batch_size = args.batch_size
     
     print(f"Configuration:")
     print(f"  Input file: {input_file}")
