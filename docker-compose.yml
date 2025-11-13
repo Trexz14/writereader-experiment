@@ -8,7 +8,7 @@ services:
     ports: 
       - "5001:5000"
     volumes:
-      - ./models/new_modeldirv4_atel:/modeldir
+      - ./models/modeldir_v1:/modeldir
     environment:
       - MODEL_DIRECTORY=/modeldir
       - INITIAL_MODEL=llama_full
@@ -22,15 +22,17 @@ services:
               capabilities: [gpu]
     
     # === Local Configuration (Mac testing) ===
-    # Uncomment these lines and comment out cloud config above:
+    # Uncomment these and comment out cloud config above for local testing:
     # image: atel:latest
+    # ports: 
+    #   - "5001:5000"
     # volumes:
     #   - ./models/modeldir_v1:/modeldir
     # environment:
     #   - MODEL_DIRECTORY=/modeldir
     #   - INITIAL_MODEL=llama_full
     #   - MODEL_DEVICE=cpu
-    # # Remove deploy section for local testing
+    # Remove deploy section for local testing
       
     networks:
       - ml-network
@@ -39,6 +41,11 @@ services:
   automaticscore:
     # === Cloud Configuration (GPU deployment) ===
     image: frederikjwritereader/automaticscore:experiment
+    
+    # === Local Configuration (Mac testing) ===
+    # Uncomment this line and comment out cloud config above for local testing:
+    # image: writereader/automaticscore:experiment
+    
     ports:
       - "5002:5000"
     volumes:

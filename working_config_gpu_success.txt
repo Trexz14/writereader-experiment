@@ -1,0 +1,344 @@
+=== SUCCESSFUL GPU PROCESSING CONFIGURATION ===
+Date: $(date)
+Instance: 86.38.238.33 (NVIDIA L40S)
+Processing Result: 11,816/13,390 rows (88% success)
+Processing Time: 5 hours 16 minutes
+Performance: 1.42s/row average
+
+=== SYSTEM INFO ===
+Linux deep-face-opens-fin-02 6.8.0-87-generic #88-Ubuntu SMP PREEMPT_DYNAMIC Sat Oct 11 09:28:41 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+
+=== GPU INFO ===
+Thu Nov  6 16:12:40 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:03:00.0 Off |                  Off |
+| N/A   37C    P0             81W /  350W |   14351MiB /  49140MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A            4206      C   python                                14342MiB |
++-----------------------------------------------------------------------------------------+
+
+=== DOCKER INFO ===
+Docker version 28.5.1, build e180ab8
+Docker Compose version v2.40.3
+
+Running Containers:
+NAME                                      IMAGE                                            COMMAND                  SERVICE          CREATED       STATUS       PORTS
+writereader-experiment-automaticscore-1   frederikjwritereader/automaticscore:experiment   "python -m main --lo…"   automaticscore   8 hours ago   Up 8 hours   0.0.0.0:5002->5000/tcp, [::]:5002->5000/tcp
+writereader-experiment-wr-ml-service-1    frederikjwritereader/atel:experiment             "python -m main --lo…"   wr-ml-service    8 hours ago   Up 8 hours   0.0.0.0:5001->5000/tcp, [::]:5001->5000/tcp
+
+=== DISK USAGE (AFTER CLEANUP) ===
+Filesystem      Size  Used Avail Use% Mounted on
+tmpfs           5.9G  1.5M  5.9G   1% /run
+efivarfs         56K   21K   31K  41% /sys/firmware/efi/efivars
+/dev/vda4        96G   65G   22G  76% /
+tmpfs            30G     0   30G   0% /dev/shm
+tmpfs           5.0M     0  5.0M   0% /run/lock
+/dev/vda3       881M  133M  687M  17% /boot
+/dev/vda2       105M  6.2M   99M   6% /boot/efi
+overlay          96G   65G   22G  76% /var/lib/docker/overlay2/1af8126a4706f45ac4ae8fd67000ba637661aa5dcdc056f5c84a95e53cd69c12/merged
+overlay          96G   65G   22G  76% /var/lib/docker/overlay2/891020d844ebc6742794ec2084380755fa9cc16a96992a86df303a8300d7d6f4/merged
+tmpfs           5.9G   12K  5.9G   1% /run/user/0
+
+=== MODELS DIRECTORY ===
+total 28K
+-rw-r--r-- 1 root root  19K Oct 23 08:02 automaticscoring_models_v2.zip
+drwxrwxr-x 4 root root 4.0K Aug 17 15:25 autoscoring_v2
+drwxrwxr-x 5 root root 4.0K Aug 21 18:22 modeldir_v1
+20K	models/automaticscoring_models_v2.zip
+80K	models/autoscoring_v2
+30G	models/modeldir_v1
+
+=== DOCKER IMAGES ===
+REPOSITORY                            TAG                       IMAGE ID       CREATED         SIZE
+frederikjwritereader/automaticscore   experiment                f290f13b5060   7 days ago      1.68GB
+frederikjwritereader/atel             experiment                f52ee673df34   7 days ago      20GB
+nvidia/cuda                           12.0.0-base-ubuntu20.04   612aabcfe238   24 months ago   240MB
+
+=== DOCKER SYSTEM ===
+TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
+Images          3         2         20.93GB   1.256GB (5%)
+Containers      2         2         97.47MB   0B (0%)
+Local Volumes   0         0         0B        0B
+Build Cache     0         0         0B        0B
+
+=== PYTHON PACKAGES ===
+Package             Version
+------------------- --------------
+attrs               23.2.0
+Automat             22.10.0
+Babel               2.10.3
+bcc                 0.29.1
+bcrypt              3.2.2
+blinker             1.7.0
+boto3               1.34.46
+botocore            1.34.46
+certifi             2023.11.17
+chardet             5.2.0
+click               8.1.6
+cloud-init          25.2
+colorama            0.4.6
+command-not-found   0.3
+configobj           5.0.8
+constantly          23.10.4
+cryptography        41.0.7
+dbus-python         1.3.2
+distro              1.9.0
+distro-info         1.7+build1
+httplib2            0.20.4
+hyperlink           21.0.0
+idna                3.6
+incremental         22.10.0
+Jinja2              3.1.2
+jmespath            1.0.1
+jsonpatch           1.32
+jsonpointer         2.0
+jsonschema          4.10.3
+launchpadlib        1.11.0
+lazr.restfulclient  0.14.6
+lazr.uri            1.0.6
+markdown-it-py      3.0.0
+MarkupSafe          2.1.5
+mdurl               0.1.2
+netaddr             0.8.0
+netifaces           0.11.0
+numpy               2.3.4
+oauthlib            3.2.2
+packaging           24.0
+pandas              2.3.3
+pexpect             4.9.0
+pip                 24.0
+ptyprocess          0.7.0
+pyarrow             22.0.0
+pyasn1              0.4.8
+pyasn1-modules      0.2.8
+Pygments            2.17.2
+PyGObject           3.48.2
+PyHamcrest          2.1.0
+PyJWT               2.7.0
+pyOpenSSL           23.2.0
+pyparsing           3.1.1
+pyrsistent          0.20.0
+pyserial            3.5
+python-apt          2.7.7+ubuntu5
+python-dateutil     2.8.2
+python-debian       0.1.49+ubuntu2
+python-magic        0.4.27
+pytz                2024.1
+PyYAML              6.0.1
+requests            2.31.0
+rich                13.7.1
+s3transfer          0.10.1
+service-identity    24.1.0
+setuptools          68.1.2
+six                 1.16.0
+sos                 4.9.2
+ssh-import-id       5.11
+systemd-python      235
+tqdm                4.67.1
+Twisted             24.3.0
+typing_extensions   4.10.0
+tzdata              2025.2
+ubuntu-pro-client   8001
+ufw                 0.36.2
+unattended-upgrades 0.1
+urllib3             2.0.7
+wadllib             1.3.6
+wheel               0.42.0
+zope.interface      6.1
+
+=== WRITEREADER-EXPERIMENT DIRECTORY ===
+total 96K
+drwxr-xr-x 7 root root 4.0K Nov  6 16:11 .
+drwx------ 7 root root 4.0K Nov  6 10:21 ..
+drwxr-xr-x 8 root root 4.0K Nov  6 08:13 .git
+-rw-r--r-- 1 root root  623 Nov  6 08:13 .gitignore
+-rw-r--r-- 1 root root 5.2K Nov  6 08:13 CLOUD_DEPLOYMENT_CHECKLIST.md
+-rw-r--r-- 1 root root 1.7K Nov  6 08:13 README.md
+drwxr-xr-x 2 root root 4.0K Nov  6 08:33 __pycache__
+-rw-r--r-- 1 root root 1.7K Nov  6 08:13 create_sample.py
+-rw-r--r-- 1 root root  844 Nov  6 08:13 create_test_sample.py
+drwxr-xr-x 2 root root 4.0K Nov  6 08:32 data
+-rw-r--r-- 1 root root 3.7K Nov  6 08:13 datacrunch-startup.sh
+-rwxr-xr-x 1 root root 2.3K Nov  6 08:13 deploy.sh
+-rw-r--r-- 1 root root 1.8K Nov  6 08:20 docker-compose.yml
+drwxr-xr-x 4 root root 4.0K Nov  6 10:33 models
+drwxr-xr-x 2 root root 4.0K Nov  6 15:52 output
+-rw-r--r-- 1 root root 7.5K Nov  6 08:13 process_parquet.py
+-rw-r--r-- 1 root root   59 Nov  6 08:13 requirements.txt
+-rwxr-xr-x 1 root root  654 Nov  6 08:13 tag_images.sh
+-rw-r--r-- 1 root root 4.1K Nov  6 08:13 utils.py
+-rw-r--r-- 1 root root 6.7K Nov  6 16:12 working_config_gpu_success.txt
+
+=== OUTPUT DIRECTORY ===
+total 12M
+drwxr-xr-x 2 root root 4.0K Nov  6 15:52 .
+drwxr-xr-x 7 root root 4.0K Nov  6 16:11 ..
+-rw-r--r-- 1 root root 8.6M Nov  6 15:52 processed_results.json
+-rw-r--r-- 1 root root 2.7M Nov  6 15:52 processed_results.parquet
+-rw-r--r-- 1 root root  134 Nov  6 15:52 processed_results_failed_batches.json
+-rw-r--r-- 1 root root  15K Nov  6 15:52 processing.log
+-rw-r--r-- 1 root root 1.2K Nov  6 08:33 test_results.json
+-rw-r--r-- 1 root root 8.9K Nov  6 08:33 test_results.parquet
+
+=== DOCKER COMPOSE CONFIG ===
+# Writereader AI Equivalence Experiment
+# Switch between GPU and CPU configurations by commenting/uncommenting sections
+
+services:
+  wr-ml-service:
+    # === Cloud Configuration (GPU deployment) ===
+    image: frederikjwritereader/atel:experiment
+    ports: 
+      - "5001:5000"
+    volumes:
+      - ./models/modeldir_v1:/modeldir
+    environment:
+      - MODEL_DIRECTORY=/modeldir
+      - INITIAL_MODEL=llama_full
+      - MODEL_DEVICE=cuda
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    
+    # === Local Configuration (Mac testing) ===
+    # Uncomment these lines and comment out cloud config above:
+    # image: atel:latest
+    # volumes:
+    #   - ./models/modeldir_v1:/modeldir
+    # environment:
+    #   - MODEL_DIRECTORY=/modeldir
+    #   - INITIAL_MODEL=llama_full
+    #   - MODEL_DEVICE=cpu
+    # # Remove deploy section for local testing
+      
+    networks:
+      - ml-network
+    restart: unless-stopped
+
+  automaticscore:
+    # === Cloud Configuration (GPU deployment) ===
+    image: frederikjwritereader/automaticscore:experiment
+    ports:
+      - "5002:5000"
+    volumes:
+      - ./models/autoscoring_v2:/modeldir
+    environment:
+      - MODEL_DIRECTORY=/modeldir
+      - MODEL_DETECT_NOISE=detect_noise/logistic_classifier/model
+      - MODEL_EVALUATE_TEXT=evaluate_text/simple
+      - API_TEXT_PROPOSAL=http://wr-ml-service:5000/api/textproposal/
+      - THRESHOLD_EVALUATE_TEXT=2.0
+      - THRESHOLD_DENOISE=0.5
+    
+    # === Local Configuration (Mac testing) ===
+    # Uncomment this line and comment out cloud config above:
+    # image: automaticscore:latest
+    depends_on:
+      - wr-ml-service
+    networks:
+      - ml-network
+    restart: unless-stopped
+
+networks:
+  ml-network:
+    driver: bridge
+
+=== PROCESSING LOG SUMMARY ===
+Total Lines: 57
+Failed Batches: 13
+Last 50 Lines:
+Data columns: ['ChildText', 'AdultText', 'Time', 'ID']
+Processing 13390 rows in 134 batches of 100
+Processing rows:   0%|          | 0/13390 [00:00<?, ?it/s]Processing rows:   1%|          | 100/13390 [04:13<9:20:54,  2.53s/it]Processing rows:   1%|▏         | 200/13390 [05:30<5:29:17,  1.50s/it]Processing rows:   2%|▏         | 300/13390 [07:08<4:34:44,  1.26s/it]Processing rows:   3%|▎         | 400/13390 [09:16<4:34:48,  1.27s/it]Processing rows:   4%|▎         | 500/13390 [11:11<4:23:03,  1.22s/it]Processing rows:   4%|▍         | 600/13390 [14:06<4:59:12,  1.40s/it]Processing rows:   5%|▌         | 700/13390 [15:34<4:20:45,  1.23s/it]Processing rows:   6%|▌         | 800/13390 [15:34<2:56:25,  1.19it/s]Processing rows:   6%|▌         | 800/13390 [15:50<2:56:25,  1.19it/s]Processing rows:   7%|▋         | 900/13390 [16:43<2:45:05,  1.26it/s]Processing rows:   7%|▋         | 1000/13390 [18:38<3:06:53,  1.10it/s]Processing rows:   8%|▊         | 1100/13390 [19:58<2:58:37,  1.15it/s]Processing rows:   9%|▉         | 1200/13390 [19:58<2:03:21,  1.65it/s]Processing rows:   9%|▉         | 1200/13390 [20:10<2:03:21,  1.65it/s]Processing rows:  10%|▉         | 1300/13390 [21:16<2:12:37,  1.52it/s]Processing rows:  10%|█         | 1400/13390 [24:21<3:23:16,  1.02s/it]Processing rows:  11%|█         | 1500/13390 [26:20<3:32:05,  1.07s/it]Processing rows:  12%|█▏        | 1600/13390 [35:23<7:48:28,  2.38s/it]Processing rows:  13%|█▎        | 1700/13390 [37:58<6:55:13,  2.13s/it]Processing rows:  13%|█▎        | 1800/13390 [41:08<6:38:15,  2.06s/it]Processing rows:  14%|█▍        | 1900/13390 [41:55<5:03:38,  1.59s/it]Processing rows:  15%|█▍        | 2000/13390 [43:24<4:21:04,  1.38s/it]Processing rows:  16%|█▌        | 2100/13390 [45:10<4:01:13,  1.28s/it]Processing rows:  16%|█▋        | 2200/13390 [47:17<3:58:32,  1.28s/it]Processing rows:  17%|█▋        | 2300/13390 [50:28<4:31:06,  1.47s/it]Processing rows:  18%|█▊        | 2400/13390 [56:21<6:22:20,  2.09s/it]Processing rows:  19%|█▊        | 2500/13390 [58:11<5:24:45,  1.79s/it]Processing rows:  19%|█▉        | 2600/13390 [59:14<4:19:29,  1.44s/it]Processing rows:  20%|██        | 2700/13390 [1:01:15<4:04:11,  1.37s/it]Processing rows:  21%|██        | 2800/13390 [1:01:15<2:49:23,  1.04it/s]Processing rows:  21%|██        | 2800/13390 [1:01:30<2:49:23,  1.04it/s]Processing rows:  22%|██▏       | 2900/13390 [1:07:02<4:59:27,  1.71s/it]Processing rows:  22%|██▏       | 3000/13390 [1:08:56<4:26:52,  1.54s/it]Processing rows:  23%|██▎       | 3100/13390 [1:13:08<5:14:49,  1.84s/it]Processing rows:  24%|██▍       | 3200/13390 [1:15:41<4:56:11,  1.74s/it]Processing rows:  25%|██▍       | 3300/13390 [1:18:02<4:36:32,  1.64s/it]Processing rows:  25%|██▌       | 3400/13390 [1:21:02<4:41:18,  1.69s/it]Processing rows:  26%|██▌       | 3500/13390 [1:25:47<5:36:10,  2.04s/it]Processing rows:  27%|██▋       | 3600/13390 [1:27:34<4:45:13,  1.75s/it]Processing rows:  28%|██▊       | 3700/13390 [1:29:16<4:07:10,  1.53s/it]Processing rows:  28%|██▊       | 3800/13390 [1:31:10<3:45:50,  1.41s/it]Processing rows:  29%|██▉       | 3900/13390 [1:33:38<3:46:42,  1.43s/it]Processing rows:  30%|██▉       | 4000/13390 [1:35:31<3:29:48,  1.34s/it]Processing rows:  31%|███       | 4100/13390 [1:38:49<3:57:19,  1.53s/it]Processing rows:  31%|███▏      | 4200/13390 [1:39:55<3:14:33,  1.27s/it]Processing rows:  32%|███▏      | 4300/13390 [1:39:55<2:14:45,  1.12it/s]Processing rows:  33%|███▎      | 4400/13390 [1:39:55<1:33:20,  1.61it/s]Processing rows:  33%|███▎      | 4400/13390 [1:40:10<1:33:20,  1.61it/s]Processing rows:  34%|███▎      | 4500/13390 [1:41:38<1:50:35,  1.34it/s]Processing rows:  34%|███▍      | 4600/13390 [1:44:39<2:36:00,  1.06s/it]Processing rows:  35%|███▌      | 4700/13390 [1:47:11<2:53:49,  1.20s/it]Processing rows:  36%|███▌      | 4800/13390 [1:49:16<2:53:58,  1.22s/it]Processing rows:  37%|███▋      | 4900/13390 [1:54:29<4:13:30,  1.79s/it]Processing rows:  37%|███▋      | 5000/13390 [1:54:29<2:55:24,  1.25s/it]Processing rows:  37%|███▋      | 5000/13390 [1:54:40<2:55:24,  1.25s/it]Processing rows:  38%|███▊      | 5100/13390 [1:57:22<3:12:39,  1.39s/it]Processing rows:  39%|███▉      | 5200/13390 [2:01:43<4:00:08,  1.76s/it]Processing rows:  40%|███▉      | 5300/13390 [2:03:45<3:35:39,  1.60s/it]Processing rows:  40%|████      | 5400/13390 [2:04:58<2:58:06,  1.34s/it]Processing rows:  41%|████      | 5500/13390 [2:06:04<2:29:16,  1.14s/it]Processing rows:  42%|████▏     | 5600/13390 [2:07:12<2:09:40,  1.00it/s]Processing rows:  43%|████▎     | 5700/13390 [2:10:40<2:49:25,  1.32s/it]Processing rows:  43%|████▎     | 5800/13390 [2:13:18<2:57:08,  1.40s/it]Processing rows:  44%|████▍     | 5900/13390 [2:14:57<2:39:13,  1.28s/it]Processing rows:  45%|████▍     | 6000/13390 [2:16:36<2:26:52,  1.19s/it]Processing rows:  46%|████▌     | 6100/13390 [2:18:15<2:17:14,  1.13s/it]Processing rows:  46%|████▋     | 6200/13390 [2:22:04<2:57:07,  1.48s/it]Processing rows:  47%|████▋     | 6300/13390 [2:23:47<2:38:42,  1.34s/it]Processing rows:  48%|████▊     | 6400/13390 [2:26:02<2:36:57,  1.35s/it]Processing rows:  49%|████▊     | 6500/13390 [2:29:23<2:57:18,  1.54s/it]Processing rows:  49%|████▉     | 6600/13390 [2:32:24<3:04:01,  1.63s/it]Processing rows:  50%|█████     | 6700/13390 [2:34:14<2:43:25,  1.47s/it]Processing rows:  51%|█████     | 6800/13390 [2:36:10<2:31:02,  1.38s/it]Processing rows:  52%|█████▏    | 6900/13390 [2:38:07<2:21:55,  1.31s/it]Processing rows:  52%|█████▏    | 7000/13390 [2:40:04<2:15:16,  1.27s/it]Processing rows:  53%|█████▎    | 7100/13390 [2:41:40<2:03:36,  1.18s/it]Processing rows:  54%|█████▍    | 7200/13390 [2:43:51<2:05:40,  1.22s/it]Processing rows:  55%|█████▍    | 7300/13390 [2:44:57<1:46:28,  1.05s/it]Processing rows:  55%|█████▌    | 7400/13390 [2:47:39<2:01:54,  1.22s/it]Processing rows:  56%|█████▌    | 7500/13390 [2:47:39<1:23:56,  1.17it/s]Processing rows:  56%|█████▌    | 7500/13390 [2:47:50<1:23:56,  1.17it/s]Processing rows:  57%|█████▋    | 7600/13390 [2:51:16<2:00:35,  1.25s/it]Processing rows:  58%|█████▊    | 7700/13390 [2:58:29<3:25:56,  2.17s/it]Processing rows:  58%|█████▊    | 7800/13390 [3:00:30<2:55:33,  1.88s/it]Processing rows:  59%|█████▉    | 7900/13390 [3:02:23<2:31:39,  1.66s/it]Processing rows:  60%|█████▉    | 8000/13390 [3:04:48<2:23:27,  1.60s/it]Processing rows:  60%|██████    | 8100/13390 [3:08:16<2:33:27,  1.74s/it]Processing rows:  61%|██████    | 8200/13390 [3:10:15<2:16:22,  1.58s/it]Processing rows:  62%|██████▏   | 8300/13390 [3:12:53<2:13:47,  1.58s/it]Processing rows:  63%|██████▎   | 8400/13390 [3:16:20<2:23:23,  1.72s/it]Processing rows:  63%|██████▎   | 8500/13390 [3:18:08<2:04:49,  1.53s/it]Processing rows:  64%|██████▍   | 8600/13390 [3:21:13<2:09:58,  1.63s/it]Processing rows:  65%|██████▍   | 8700/13390 [3:25:59<2:36:04,  2.00s/it]Processing rows:  66%|██████▌   | 8800/13390 [3:25:59<1:46:56,  1.40s/it]Processing rows:  66%|██████▌   | 8800/13390 [3:26:10<1:46:56,  1.40s/it]Processing rows:  66%|██████▋   | 8900/13390 [3:28:48<1:51:10,  1.49s/it]Processing rows:  67%|██████▋   | 9000/13390 [3:33:56<2:23:40,  1.96s/it]Processing rows:  68%|██████▊   | 9100/13390 [3:43:56<3:47:01,  3.18s/it]Processing rows:  69%|██████▊   | 9200/13390 [3:43:56<2:35:14,  2.22s/it]Processing rows:  69%|██████▊   | 9200/13390 [3:44:10<2:35:14,  2.22s/it]Processing rows:  69%|██████▉   | 9300/13390 [3:46:22<2:15:57,  1.99s/it]Processing rows:  70%|███████   | 9400/13390 [3:50:47<2:25:32,  2.19s/it]Processing rows:  71%|███████   | 9500/13390 [3:52:33<2:00:04,  1.85s/it]Processing rows:  72%|███████▏  | 9600/13390 [3:55:04<1:50:30,  1.75s/it]Processing rows:  72%|███████▏  | 9700/13390 [3:56:33<1:31:37,  1.49s/it]Processing rows:  73%|███████▎  | 9800/13390 [3:58:07<1:19:20,  1.33s/it]Processing rows:  74%|███████▍  | 9900/13390 [4:00:24<1:17:49,  1.34s/it]Processing rows:  75%|███████▍  | 10000/13390 [4:06:09<1:51:22,  1.97s/it]Processing rows:  75%|███████▌  | 10100/13390 [4:07:36<1:30:06,  1.64s/it]Processing rows:  76%|███████▌  | 10200/13390 [4:09:31<1:19:22,  1.49s/it]Processing rows:  77%|███████▋  | 10300/13390 [4:11:26<1:11:34,  1.39s/it]Processing rows:  78%|███████▊  | 10400/13390 [4:14:04<1:12:08,  1.45s/it]Processing rows:  78%|███████▊  | 10500/13390 [4:15:56<1:04:57,  1.35s/it]Processing rows:  79%|███████▉  | 10600/13390 [4:16:56<52:21,  1.13s/it]  Processing rows:  80%|███████▉  | 10700/13390 [4:18:28<47:37,  1.06s/it]Processing rows:  81%|████████  | 10800/13390 [4:20:01<44:11,  1.02s/it]Processing rows:  81%|████████▏ | 10900/13390 [4:20:53<36:09,  1.15it/s]Processing rows:  82%|████████▏ | 11000/13390 [4:22:22<35:02,  1.14it/s]Processing rows:  83%|████████▎ | 11100/13390 [4:24:32<38:21,  1.00s/it]Processing rows:  84%|████████▎ | 11200/13390 [4:24:32<25:41,  1.42it/s]Processing rows:  84%|████████▎ | 11200/13390 [4:24:50<25:41,  1.42it/s]Processing rows:  84%|████████▍ | 11300/13390 [4:28:38<42:51,  1.23s/it]Processing rows:  85%|████████▌ | 11400/13390 [4:30:36<40:17,  1.21s/it]Processing rows:  86%|████████▌ | 11500/13390 [4:33:50<45:08,  1.43s/it]Processing rows:  87%|████████▋ | 11600/13390 [4:36:12<42:37,  1.43s/it]Processing rows:  87%|████████▋ | 11700/13390 [4:38:14<38:30,  1.37s/it]Processing rows:  88%|████████▊ | 11800/13390 [4:41:13<39:35,  1.49s/it]Processing rows:  89%|████████▉ | 11900/13390 [4:43:47<37:25,  1.51s/it]Processing rows:  90%|████████▉ | 12000/13390 [4:45:36<31:58,  1.38s/it]Processing rows:  90%|█████████ | 12100/13390 [4:45:36<20:46,  1.03it/s]Processing rows:  90%|█████████ | 12100/13390 [4:45:50<20:46,  1.03it/s]Processing rows:  91%|█████████ | 12200/13390 [4:50:30<30:55,  1.56s/it]Processing rows:  92%|█████████▏| 12300/13390 [4:54:54<34:11,  1.88s/it]Processing rows:  93%|█████████▎| 12400/13390 [4:56:05<25:16,  1.53s/it]Processing rows:  93%|█████████▎| 12500/13390 [4:58:12<21:34,  1.45s/it]Processing rows:  94%|█████████▍| 12600/13390 [5:00:33<18:57,  1.44s/it]Processing rows:  95%|█████████▍| 12700/13390 [5:02:38<15:53,  1.38s/it]Processing rows:  96%|█████████▌| 12800/13390 [5:05:24<14:24,  1.47s/it]Processing rows:  96%|█████████▋| 12900/13390 [5:05:24<08:22,  1.03s/it]Processing rows:  96%|█████████▋| 12900/13390 [5:05:40<08:22,  1.03s/it]Processing rows:  97%|█████████▋| 13000/13390 [5:07:27<07:03,  1.09s/it]Processing rows:  98%|█████████▊| 13100/13390 [5:09:06<05:07,  1.06s/it]Processing rows:  99%|█████████▊| 13200/13390 [5:11:03<03:27,  1.09s/it]Processing rows:  99%|█████████▉| 13300/13390 [5:13:46<01:52,  1.25s/it]Processing rows: 100%|██████████| 13390/13390 [5:15:56<00:00,  1.31s/it]Processing rows: 100%|██████████| 13390/13390 [5:15:56<00:00,  1.42s/it]
+API error (attempt 1): Status 400
+Failed to get response after 1 attempts
+Warning: No valid response for batch 8
+API error (attempt 1): Status 400
+Failed to get response after 1 attempts
+Warning: No valid response for batch 12
+API error (attempt 1): Status 400
+Failed to get response after 1 attempts
+Warning: No valid response for batch 28
+API error (attempt 1): Status 400
+Failed to get response after 1 attempts
+Warning: No valid response for batch 43
+API error (attempt 1): Status 400
+Failed to get response after 1 attempts
+Warning: No valid response for batch 44
+API error (attempt 1): Status 400
+Failed to get response after 1 attempts
+Warning: No valid response for batch 50
+API error (attempt 1): Status 400
+Failed to get response after 1 attempts
+Warning: No valid response for batch 75
+API error (attempt 1): Status 400
+Failed to get response after 1 attempts
+Warning: No valid response for batch 88
+Request error (attempt 1): HTTPConnectionPool(host='localhost', port=5002): Read timed out. (read timeout=600)
+Failed to get response after 1 attempts
+Warning: No valid response for batch 91
+API error (attempt 1): Status 400
+Failed to get response after 1 attempts
+Warning: No valid response for batch 92
+API error (attempt 1): Status 400
+Failed to get response after 1 attempts
+Warning: No valid response for batch 112
+API error (attempt 1): Status 400
+Failed to get response after 1 attempts
+Warning: No valid response for batch 121
+API error (attempt 1): Status 400
+Failed to get response after 1 attempts
+Warning: No valid response for batch 129
+Saved 11816 results to output/processed_results.parquet
+Debug JSON saved to output/processed_results.json
+Failed batches info saved to output/processed_results_failed_batches.json
+
+Processing complete!
+Successfully processed: 11816 rows
+Failed batches: 13
+Results saved to: output/processed_results.parquet
+
+=== FAILED BATCHES DETAIL ===
+{
+  "failed_batches": [
+    8,
+    12,
+    28,
+    43,
+    44,
+    50,
+    75,
+    88,
+    91,
+    92,
+    112,
+    121,
+    129
+  ]
+}
+=== CRITICAL LEARNINGS ===
+1. Disk Space Issue: 25GB ZIP file must be deleted after extraction
+2. Model Size: 30GB extracted + 20GB Docker images + 13GB system = 63GB minimum
+3. Process Management: Use nohup for long-running processes  
+4. Failed Batches: 13 batches (970 rows) failed with Status 400 errors
+5. Performance: GPU L40S processes at ~1.42s/row vs CPU ~6s/row (4x faster)
+6. Timeout: One batch (91) timed out after 600s
+7. SSH Connection: Will timeout during long runs - nohup keeps process alive
+8. Process Backgrounding: Ctrl+Z, bg, disown works but nohup is cleaner

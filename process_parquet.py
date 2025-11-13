@@ -60,15 +60,31 @@ def load_parquet_data(file_path: str) -> pd.DataFrame:
         sys.exit(1)
 
 def prepare_api_batch(df_batch: pd.DataFrame) -> dict:
-    """Convert DataFrame batch to API format"""
+    """Convert DataFrame batch to API format, filtering out empty rows"""
     texts = []
+    skipped = []
+    
     for i, row in df_batch.iterrows():
+        # Check if ChildText or AdultText is empty/whitespace after stripping
+        child_text = str(row['ChildText']).strip()
+        adult_text = str(row['AdultText']).strip()
+        
+        if not child_text or not adult_text:
+            # Skip empty rows - they cause Status 400 errors
+            skipped.append({
+                'index': i,
+                'id': row.get('ID', 'unknown'),
+                'reason': 'empty_text'
+            })
+            continue
+        
         texts.append({
             "pageId": i,  # Use row index as integer pageId
-            "childText": str(row['ChildText']),
-            "adultText": str(row['AdultText'])
+            "childText": child_text,
+            "adultText": adult_text
         })
-    return {"texts": texts}
+    
+    return {"texts": texts, "skipped": skipped}
 
 def process_parquet_file(input_file: str, output_file: str, 
                         api_url: str, batch_size: int = 100):
@@ -80,6 +96,7 @@ def process_parquet_file(input_file: str, output_file: str,
     # Prepare results storage
     results = []
     failed_batches = []
+    skipped_rows = []  # Track all skipped rows
     
     # Process in batches
     total_batches = len(df) // batch_size + (1 if len(df) % batch_size > 0 else 0)
@@ -92,44 +109,60 @@ def process_parquet_file(input_file: str, output_file: str,
             batch_num = i // batch_size + 1
             
             try:
-                # Prepare API request
+                # Prepare API request (filters out empty rows)
                 api_request = prepare_api_batch(batch_df)
                 
-                # Make API call
-                response = make_api_call(api_url, api_request)
+                # Track skipped rows from this batch
+                if api_request.get('skipped'):
+                    skipped_rows.extend(api_request['skipped'])
+                    print(f"Batch {batch_num}: Skipped {len(api_request['skipped'])} empty row(s)")
                 
-                if response and 'texts' in response:
-                    # Combine original data with API results
-                    for j, result in enumerate(response['texts']):
-                        original_row = batch_df.iloc[j]
-                        combined_result = {
-                            # Original data (from parquet file)
-                            'original_id': original_row['ID'],
-                            'original_child_text': original_row['ChildText'],
-                            'original_adult_text': original_row['AdultText'],
-                            'original_time': original_row['Time'],
+                # Only make API call if we have texts to process
+                if api_request['texts']:
+                    # Make API call
+                    response = make_api_call(api_url, {"texts": api_request['texts']})
+                    
+                    if response and 'texts' in response:
+                        # FIX: Match results by pageId, not by index position
+                        # The API may return fewer results than sent (filtering), so we can't use enumerate
+                        for result in response['texts']:
+                            page_id = result.get('pageId')
                             
-                            # API results
-                            'page_id': result.get('pageId'),
-                            'is_proposed': result.get('isProposed', False),
-                            'ai_score': result.get('aiScore'),  # AI confidence score
+                            # Find the original row by matching the pageId (which is the pandas index)
+                            try:
+                                original_row = batch_df.loc[page_id]
+                            except KeyError:
+                                print(f"Warning: Result pageId {page_id} not found in batch {batch_num}")
+                                continue
                             
-                            # GDPR cleaned results
-                            'gdpr_child_text': result.get('gdpr', {}).get('childText'),
-                            'gdpr_adult_text': result.get('gdpr', {}).get('adultText'),
-                            'gdpr_proposed_text': result.get('gdpr', {}).get('proposedText'),
-                            
-                            # Raw proposed text (no original equivalent)
-                            'raw_proposed_text': result.get('raw', {}).get('proposedText'),
-                            
-                            # Processing metadata
-                            'processed_at': datetime.now().isoformat(),
-                            'batch_number': batch_num
-                        }
-                        results.append(combined_result)
-                else:
-                    print(f"Warning: No valid response for batch {batch_num}")
-                    failed_batches.append(batch_num)
+                            combined_result = {
+                                # Original data (from parquet file)
+                                'original_id': original_row['ID'],
+                                'original_child_text': original_row['ChildText'],
+                                'original_adult_text': original_row['AdultText'],
+                                'original_time': original_row['Time'],
+                                
+                                # API results
+                                'page_id': page_id,
+                                'is_proposed': result.get('isProposed', False),
+                                'ai_score': result.get('aiScore'),  # AI confidence score
+                                
+                                # GDPR cleaned results
+                                'gdpr_child_text': result.get('gdpr', {}).get('childText'),
+                                'gdpr_adult_text': result.get('gdpr', {}).get('adultText'),
+                                'gdpr_proposed_text': result.get('gdpr', {}).get('proposedText'),
+                                
+                                # Raw proposed text (no original equivalent)
+                                'raw_proposed_text': result.get('raw', {}).get('proposedText'),
+                                
+                                # Processing metadata
+                                'processed_at': datetime.now().isoformat(),
+                                'batch_number': batch_num
+                            }
+                            results.append(combined_result)
+                    else:
+                        print(f"Warning: No valid response for batch {batch_num}")
+                        failed_batches.append(batch_num)
                     
             except Exception as e:
                 print(f"Error processing batch {batch_num}: {e}")
@@ -141,10 +174,11 @@ def process_parquet_file(input_file: str, output_file: str,
             time.sleep(0.1)
     
     # Save results
-    save_results(results, output_file, failed_batches)
+    save_results(results, output_file, failed_batches, skipped_rows)
     
     print(f"\nProcessing complete!")
     print(f"Successfully processed: {len(results)} rows")
+    print(f"Skipped (empty text): {len(skipped_rows)} rows")
     print(f"Failed batches: {len(failed_batches)}")
     print(f"Results saved to: {output_file}")
 

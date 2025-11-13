@@ -9,7 +9,7 @@ import json
 import logging
 import os
 import time
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
 def setup_logging():
     """Set up logging configuration"""
@@ -64,7 +64,7 @@ def make_api_call(api_url: str, request_data: Dict[str, Any],
     print(f"Failed to get response after {max_retries} attempts")
     return None
 
-def save_results(results: List[Dict], output_file: str, failed_batches: List[int]):
+def save_results(results: List[Dict], output_file: str, failed_batches: List[int], skipped_rows: Optional[List[Dict]] = None):
     """Save processing results to parquet file"""
     
     if results:
@@ -85,6 +85,13 @@ def save_results(results: List[Dict], output_file: str, failed_batches: List[int
         with open(failed_file, 'w') as f:
             json.dump({'failed_batches': failed_batches}, f, indent=2)
         print(f"Failed batches info saved to {failed_file}")
+    
+    # Save skipped rows info
+    if skipped_rows:
+        skipped_file = output_file.replace('.parquet', '_skipped_rows.json')
+        with open(skipped_file, 'w') as f:
+            json.dump({'skipped_rows': skipped_rows, 'total_skipped': len(skipped_rows)}, f, indent=2)
+        print(f"Skipped rows info saved to {skipped_file}")
 
 def test_api_connection(api_url: str) -> bool:
     """Test if API is accessible"""
